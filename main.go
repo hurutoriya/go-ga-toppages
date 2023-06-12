@@ -69,7 +69,7 @@ func main() {
 	}
 
 	for i, row := range response.Rows {
-		if i >= *topN {
+		if i >= *topN+1 {
 			break
 		}
 		pagePath := row.DimensionValues[0].Value
