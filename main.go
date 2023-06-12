@@ -23,7 +23,8 @@ func main() {
 	propertyID := flag.String("property_id", "", "Google Analytics(GA4) property ID")
 	siteContentPath := flag.String("site_content_path", "", "Path to site content in static site generator (e.g. Hugo)")
 	pagesRootURL := flag.String("pages_root_url", "", "Pages root URL (e.g. https://shunyaueta.com)")
-	topN := flag.Int("top_n", 0, "Number of top pages to retrieve")
+	formatOption := flag.String("format_option", "markdown", "markdown or html")
+	topN := flag.Int("top_n", 10, "Number of top pages to retrieve")
 	flag.Parse()
 
 	if *propertyID == "" || *siteContentPath == "" || *pagesRootURL == "" || *topN == 0 {
@@ -59,8 +60,13 @@ func main() {
 		log.Fatalf("Failed to run GA report: %v", err)
 	}
 
-	// Show aggregation result
-	fmt.Printf("## 直近一年間の人気記事 Top%d\n\n", *topN)
+	if *formatOption == "markdown" {
+		fmt.Printf("## 直近一年間の人気記事 Top%d\n\n", *topN)
+	} else {
+		// HTML option
+		fmt.Printf("<h2> 直近一年間の人気記事 Top%d</h2> \n", *topN)
+		fmt.Printf("<ol>\n")
+	}
 
 	for i, row := range response.Rows {
 		if i >= *topN {
@@ -70,13 +76,18 @@ func main() {
 		if pagePath == "/" {
 			continue
 		}
-
 		viewCount := row.MetricValues[0].Value
 		pageTitle := getPageTitle(*siteContentPath, pagePath)
-
 		pageURL := *pagesRootURL + pagePath
-
-		fmt.Printf("1. `%s` views: [%s](%s)\n", viewCount, pageTitle, pageURL)
+		if *formatOption == "markdown" {
+			fmt.Printf("1. `%s` views: [%s](%s)\n", viewCount, pageTitle, pageURL)
+		} else {
+			// HTML option
+			fmt.Printf("<li><code>%s/code> views: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
+		}
+	}
+	if *formatOption == "html" {
+		fmt.Println("</ol>")
 	}
 }
 
