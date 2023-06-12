@@ -83,7 +83,7 @@ func main() {
 			fmt.Printf("1. `%s` views: [%s](%s)\n", viewCount, pageTitle, pageURL)
 		} else {
 			// HTML option
-			fmt.Printf("<li><code>%s/code> views: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
+			fmt.Printf("<li><code>%s</code> views: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
 		}
 	}
 	if *formatOption == "html" {
