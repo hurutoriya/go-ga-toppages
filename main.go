@@ -80,10 +80,10 @@ func main() {
 		pageTitle := getPageTitle(*siteContentPath, pagePath)
 		pageURL := *pagesRootURL + pagePath
 		if *formatOption == "markdown" {
-			fmt.Printf("1. `%s` unique users: [%s](%s)\n", viewCount, pageTitle, pageURL)
+			fmt.Printf("1. `%s` unique user access: [%s](%s)\n", viewCount, pageTitle, pageURL)
 		} else {
 			// HTML option
-			fmt.Printf("<li><code>%s</code> unique users: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
+			fmt.Printf("<li><code>%s</code> unique user access: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
 		}
 	}
 	if *formatOption == "html" {
