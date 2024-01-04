@@ -23,7 +23,7 @@ func main() {
 	propertyID := flag.String("property_id", "", "Google Analytics(GA4) property ID")
 	siteContentPath := flag.String("site_content_path", "", "Path to site content in static site generator (e.g. Hugo)")
 	pagesRootURL := flag.String("pages_root_url", "", "Pages root URL (e.g. https://shunyaueta.com)")
-	formatOption := flag.String("format_option", "markdown", "markdown or html")
+	formatOption := flag.String("format_option", "html", "markdown or html")
 	styleOption := flag.String("style_option", "simple", "Include access count or just ranking data")
 
 	topN := flag.Int("top_n", 10, "Number of top pages to retrieve")
