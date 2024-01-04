@@ -71,11 +71,13 @@ func main() {
 	}
 
 	for i, row := range response.Rows {
-		if i >= *topN+1 {
+		// Handle the root and about page as offset
+		if i >= *topN+2 {
 			break
 		}
 		pagePath := row.DimensionValues[0].Value
-		if pagePath == "/" {
+		// Skip if root and about page is ranked
+		if pagePath == "/" || pagePath == "/about/" {
 			continue
 		}
 		viewCount := row.MetricValues[0].Value
