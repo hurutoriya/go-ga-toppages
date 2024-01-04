@@ -24,6 +24,8 @@ func main() {
 	siteContentPath := flag.String("site_content_path", "", "Path to site content in static site generator (e.g. Hugo)")
 	pagesRootURL := flag.String("pages_root_url", "", "Pages root URL (e.g. https://shunyaueta.com)")
 	formatOption := flag.String("format_option", "markdown", "markdown or html")
+	styleOption := flag.String("style_option", "simple", "Include access count or just ranking data")
+
 	topN := flag.Int("top_n", 10, "Number of top pages to retrieve")
 	flag.Parse()
 
@@ -80,10 +82,18 @@ func main() {
 		pageTitle := getPageTitle(*siteContentPath, pagePath)
 		pageURL := *pagesRootURL + pagePath
 		if *formatOption == "markdown" {
-			fmt.Printf("1. `%s` unique user access: [%s](%s)\n", viewCount, pageTitle, pageURL)
+			if *styleOption == "simple" {
+				fmt.Printf("1. [%s](%s)\n", pageTitle, pageURL)
+			} else {
+				fmt.Printf("1. `%s` unique user access: [%s](%s)\n", viewCount, pageTitle, pageURL)
+			}
 		} else {
 			// HTML option
-			fmt.Printf("<li><code>%s</code> unique user access: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
+			if *styleOption == "simple" {
+				fmt.Printf("<li><a href=\"%s\">%s</a></li> \n", pagePath, pageTitle)
+			} else {
+				fmt.Printf("<li><code>%s</code> unique user access: <a href=\"%s\">%s</a></li> \n", viewCount, pagePath, pageTitle)
+			}
 		}
 	}
 	if *formatOption == "html" {
